@@ -1,6 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import authRoutes from "./routes/authRoutes.js";
+
+
+
 
 dotenv.config();
 const app = express();
@@ -21,6 +25,8 @@ mongoose.connection.on('error', err => {
 app.get("/", (req, res) => {
   res.send("App is running");
 });
+
+app.use("/api/auth", authRoutes);
 
 app.get("/:id", (req, res) => {
   const { id } = req.params;
