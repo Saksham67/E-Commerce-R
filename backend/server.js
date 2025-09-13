@@ -28,6 +28,10 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 
+import productRoutes from "./routes/productRoutes.js";
+app.use("/api/products", productRoutes);
+
+
 app.get("/:id", (req, res) => {
   const { id } = req.params;
   res.send(`You passed ID: ${id}`);
