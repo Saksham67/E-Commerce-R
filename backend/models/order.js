@@ -7,32 +7,37 @@ const orderSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    products: [
+    orderItems: [
       {
         product: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Product",
           required: true,
         },
-        quantity: {
-          type: Number,
-          required: true,
-          default: 1,
-        },
+        name: { type: String, required: true },
+        qty: { type: Number, required: true },
+        price: { type: Number, required: true },
       },
     ],
-    totalAmount: {
-      type: Number,
-      required: true,
+    shippingAddress: {
+      address: { type: String, required: true },
+      city: { type: String, required: true },
+      postalCode: { type: String, required: true },
+      country: { type: String, required: true },
     },
     paymentMethod: {
       type: String,
-      enum: ["COD", "Online"],
-      default: "COD",
+      required: true,
+      enum : ["COD", "Online"],
+      default: "COD", // Cash on Delivery for now
+    },
+    totalPrice: {
+      type: Number,
+      required: true,
     },
     status: {
       type: String,
-      enum: ["Pending", "Confirmed", "Out for Delivery", "Delivered"],
+      enum: ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"],
       default: "Pending",
     },
   },
