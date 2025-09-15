@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import adminRoutes from './routes/adminRoutes.js';
 
 
 
@@ -37,7 +38,7 @@ app.use("/api/products", productRoutes);
 
 app.use("/api/orders", orderRoutes);
 
-
+app.use('/api/admin', adminRoutes);
 
 app.get("/:id", (req, res) => {
   const { id } = req.params;
