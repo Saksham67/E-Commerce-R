@@ -5,16 +5,28 @@ import Product from '../models/product.js';
 // @desc    Get all orders (Admin)
 // @route   GET /api/admin/orders
 // @access  Private/Admin
+// export const getAllOrders = async (req, res) => {
+//   try {
+//     const orders = await Order.find()
+//       .populate('user', 'name email') // show user details
+//       .populate('orderItems.product', 'name price');
+//     res.status(200).json(orders);
+//   } catch (err) {
+//     res.status(500).json({ message: 'Error fetching orders', error: err.message });
+//   }
+// };
 export const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
-      .populate('user', 'name email') // show user details
+      .populate('user', 'name email') // still show user details
       .populate('orderItems.product', 'name price');
+
     res.status(200).json(orders);
   } catch (err) {
     res.status(500).json({ message: 'Error fetching orders', error: err.message });
   }
 };
+
 
 // @desc    Delete product (Admin)
 // @route   DELETE /api/admin/products/:id
