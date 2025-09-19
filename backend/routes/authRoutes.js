@@ -7,6 +7,13 @@ const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
+
+
+// router.post("/login", (req, res, next) => {
+//   console.log("Login route hit");
+//   next();
+// }, loginUser);
+
 router.get("/profile", protect, getUserProfile);
 
 export default router;
