@@ -11,9 +11,10 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 
 
-
 dotenv.config();
 const app = express();
+
+
 
 app.use(cors({
   origin: "http://localhost:5173",
@@ -38,6 +39,7 @@ app.get("/", (req, res) => {
   res.send("App is running");
 });
 
+
 app.use("/api/auth", authRoutes);
 
 
@@ -54,13 +56,19 @@ app.use('/api/payment', paymentRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
+
+
 app.get("/:id", (req, res) => {
   const { id } = req.params;
   res.send(`You passed ID: ${id}`);
 });
 
 
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
+

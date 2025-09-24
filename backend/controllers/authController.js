@@ -1,6 +1,7 @@
 // backend/controllers/authController.js
 import User from "../models/user.js";
 import generateToken from "../utils/generateToken.js";
+import bcrypt from "bcryptjs";
 
 /**
  * POST /api/auth/register
@@ -88,5 +89,74 @@ export const getUserProfile = async (req, res) => {
   } catch (error) {
     console.error("getUserProfile error:", error);
     return res.status(500).json({ message: "Server error" });
+  }
+}
+
+// export const updateUserProfile = async(req, res) =>{
+//    try {
+//     const user = await User.findById(req.user._id);
+
+//     if (user) {
+//       user.name = req.body.name || user.name;
+
+//       if (req.body.password) {
+//         const salt = await bcrypt.genSalt(10);
+//         user.password = await bcrypt.hash(req.body.password, salt);
+//       }
+
+//       const updatedUser = await user.save();
+
+//       res.json({
+//         _id: updatedUser._id,
+//         name: updatedUser.name,
+//         email: updatedUser.email,
+//         createdAt: updatedUser.createdAt,
+//       });
+//     } else {
+//       res.status(404).json({ message: "User not found" });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ message: "Server error" });
+//   }
+// }
+
+export const updateUserProfile = async (req, res) => {
+  try {
+    console.log("req.user:", req.user);   // 🟢 debug
+    console.log("req.body:", req.body);   // 🟢 debug
+
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Only update if body has values
+    if (req.body.name) user.name = req.body.name;
+    if (req.body.email) user.email = req.body.email;
+    if (req.body.phone) user.phone = req.body.phone;
+    if (req.body.address) user.address = req.body.address;
+
+    // if (req.body.password && req.body.password.trim() !== "") {
+    //   const salt = await bcrypt.genSalt(10);
+    //   user.password = await bcrypt.hash(req.body.password, salt);
+    // }
+    if (req.body.password && req.body.password.trim() !== "") {
+  user.password = req.body.password; // let pre("save") handle hashing
+}
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      phone: updatedUser.phone,
+      address: updatedUser.address,
+      role: updatedUser.role,
+    });
+  } catch (error) {
+    console.error("updateUserProfile error:", error);  // 🟢 show full error
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
